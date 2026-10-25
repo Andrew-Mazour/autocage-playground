@@ -68,7 +68,7 @@ limactl shell autocage-m0 -- bash -lc '
   set -e
   WORK="$HOME/autocage-playground-aider"
   AC="$HOME/autocage-playground-test/autocage"
-  RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-local-aider"
+  RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-local-aider-$$"
   RESULTS="$WORK/results/$RUN_ID"
   LOGS="$WORK/logs/$RUN_ID"
   cd "$AC"
@@ -84,7 +84,7 @@ limactl shell autocage-m0 -- bash -lc '
   python experiments/inspect-autocage-v1/summarize.py "$RESULTS" \
     --output "$RESULTS/summary.json" \
     --markdown-output "$RESULTS/summary.md"
-  sha256sum --check "$WORK/source-before.sha256"
+  (cd "$WORK/source-repo" && sha256sum --check "$WORK/source-before.sha256")
   echo "RESULTS=$RESULTS"
   echo "SUMMARY=$RESULTS/summary.md"
 '
