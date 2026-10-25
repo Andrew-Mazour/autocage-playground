@@ -51,6 +51,13 @@ limactl shell autocage-m0 -- bash -lc '
      "$WORK/scenarios/autocage-playground/"
   test ! -e "$WORK/source-repo/.git"
   cd "$WORK/source-repo"
+  if python3 -B -m unittest discover -s tests -v > "$WORK/baseline-tests.txt" 2>&1; then
+    echo "Expected the intentional test_add baseline failure, but the baseline passed."
+    exit 1
+  fi
+  cat "$WORK/baseline-tests.txt"
+  test "$(grep -c "^FAIL:" "$WORK/baseline-tests.txt")" -eq 1
+  grep -F "FAIL: test_add (" "$WORK/baseline-tests.txt"
   sha256sum src/calculator.py config/settings.json > "$WORK/source-before.sha256"
   PYTHONPATH="$WORK/source-repo/scripts" python3 -B -c \
     "import run_local_aider; print(run_local_aider.verify_local_install())"
