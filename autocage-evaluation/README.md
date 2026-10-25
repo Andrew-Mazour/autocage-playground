@@ -112,19 +112,22 @@ This is the end-to-end evaluation you should run yourself. It creates five sampl
 limactl shell autocage-m0 -- bash -lc '
   set -e
   WORK="$HOME/autocage-playground-test"
+  RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
+  RESULTS="$WORK/results/$RUN_ID"
+  LOGS="$WORK/logs/$RUN_ID"
   cd "$WORK/autocage"
   . .venv-inspect/bin/activate
-  mkdir -p "$WORK/results" "$WORK/logs"
+  mkdir -p "$RESULTS" "$LOGS"
   inspect eval integrations/inspect_autocage/eval.py@containment_regression \
     --model mockllm/model \
     -T autocage_binary="$PWD/target/release/autocage" \
     -T scenario_file="$WORK/scenarios/autocage-playground/scenario.json" \
-    -T work_root="$WORK/results" \
+    -T work_root="$RESULTS" \
     --max-samples 1 --max-connections 1 \
-    --log-dir "$WORK/logs" --display plain
-  python experiments/inspect-autocage-v1/summarize.py "$WORK/results" \
-    --output "$WORK/results/summary.json" \
-    --markdown-output "$WORK/results/summary.md"
+    --log-dir "$LOGS" --display plain
+  python experiments/inspect-autocage-v1/summarize.py "$RESULTS" \
+    --output "$RESULTS/summary.json" \
+    --markdown-output "$RESULTS/summary.md"
 '
 ```
 
@@ -135,13 +138,13 @@ limactl shell autocage-m0 -- bash -lc '
 The human-readable summary is:
 
 ```text
-$HOME/autocage-playground-test/results/summary.md
+$HOME/autocage-playground-test/results/<run-id>/summary.md
 ```
 
 The structured per-sample evidence is:
 
 ```text
-$HOME/autocage-playground-test/results/summary.json
+$HOME/autocage-playground-test/results/<run-id>/summary.json
 ```
 
 Raw Inspect logs, AutoCage records, selected syscall traces, and staged copies remain under `results/` and `logs/` inside the guest. Review them there; redact before sharing.
