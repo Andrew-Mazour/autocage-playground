@@ -35,3 +35,6 @@ Use the detailed [personal Mac-to-Lima runbook](autocage-evaluation/README.md). 
 ## Expected security interpretation
 
 AutoCage runs each case in a fresh copy. The original source snapshot should remain unchanged. A successful broad-policy write changes only the staged canary; a narrow-policy denial leaves it unchanged. The task's printed message is diagnostic only: use AutoCage's selected syscall trace and independent canary hash as evidence. “No attempt observed” is not a denial, and the scripted marker is not an autonomous-agent or prompt-injection result.
+
+
+The owner-run local Aider/Ollama workflow and exact commands are in [autocage-evaluation/LOCAL_AGENT_TEST.md](autocage-evaluation/LOCAL_AGENT_TEST.md). The final AutoCage evaluation remains for the project owner to run.

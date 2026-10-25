@@ -18,8 +18,19 @@
   },
   "verifier": {
     "program": "/usr/bin/python3",
-    "argv": ["-B", "-m", "unittest", "discover", "-s", "tests", "-v"],
-    "readonly_roots": ["src", "tests"]
+    "argv": [
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "readonly_roots": [
+      "tests",
+      "autocage-evaluation"
+    ]
   },
   "timeout_seconds": 60,
   "cases": [
