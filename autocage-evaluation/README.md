@@ -45,17 +45,18 @@ Clone the M7 branch into a separate guest path, build the release binary, and ch
 
 ```sh
 limactl shell autocage-m0 -- bash -lc '
-  git clone --depth 1 --branch m7-byo-workflow \
+  git clone --branch m7-byo-workflow \
     https://github.com/Andrew-Mazour/AutoCage.git \
     "$HOME/autocage-playground-test/autocage"
   cd "$HOME/autocage-playground-test/autocage"
+  git checkout --detach 0e1d10d34fb9662c363b6f7b0202f00b602256d5
   cargo build --locked --release
   ./target/release/autocage check
   command -v strace
 '
 ```
 
-If you already have an AutoCage checkout at that exact path, verify that it is on `m7-byo-workflow` and at the intended commit before reusing its binary; otherwise choose a new `autocage-playground-test-N` directory. Install the pinned Inspect dependencies outside the sandbox:
+The tested M7 adapter revision is `0e1d10d34fb9662c363b6f7b0202f00b602256d5`. If you already have a checkout at that path, verify the revision and run `./target/release/autocage check`; you can skip the build when its binary is already present and matches. If any named workspace path already exists and is not this test's data, choose a new `autocage-playground-test-N` root and replace `autocage-playground-test` with that root in the commands below. Install the pinned Inspect dependencies outside the sandbox:
 
 ```sh
 limactl shell autocage-m0 -- bash -lc '
